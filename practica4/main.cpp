@@ -11,7 +11,8 @@ int main()
     bool flag=true;
 
     cout<<"(1) Agregar router"<<endl;
-    cout<<"(2) Mostrar toda la red"<<endl;
+    cout<<"(2) Eliminar router"<<endl;
+    cout<<"(3) Mostrar toda la red"<<endl;
     cout<<"(0) Salir"<<endl;
 
 
@@ -24,11 +25,15 @@ int main()
             break;
 
         case 1:{
-            cout<<"Nombre del router: "; cin>>nombre;
+            cout<<"Nombre del router a agregar: "; cin>>nombre;
             red.agregarRouter(nombre);
             break;
         }
         case 2:
+            cout<<"Nombre del router a eliminar: "; cin>>nombre;
+            red.eliminarRouter(nombre);
+            break;
+        case 3:
             red.mostrarRed();
             break;
         }

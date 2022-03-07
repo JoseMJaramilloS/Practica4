@@ -16,8 +16,8 @@ void net::agregarRouter(char nombre)
     }
     else {
         if (red.size()==0) {//si es el primer router
-
             red.insert(pair<char,router>(nombre,routerTemp));
+            cout<<"Primer router de la red agregado"<<endl;
         }
         else {
             cout<<"\nRealizacion de enlaces"<<endl;
@@ -25,15 +25,18 @@ void net::agregarRouter(char nombre)
                 cout<<"\nIngrese router para realizar enlace (0 para salir): "; cin>>name;
                 if (name !='0') {
                     iter_red=red.find(name);
-                    if (iter_red == red.end()) {
-                        cout<<"Ese router no existe"<<endl;//pequenio error aca
+                    if (name == nombre){
+                        cout<<"No puede realizar un enlace con el mismo router"<<endl;
                     }
-                    else if (name == nombre){
-                        cout<<"No puede realizar ese enlace, es el mismo router"<<endl;
+                    else if (iter_red == red.end()) {
+                        cout<<"Ese router no existe"<<endl;
                     }
+
                     else {
                         cout<<"Ingrese costo del enlace: "; cin>>costo;
-                        routerTemp.agregarEnlace(name,costo);
+                        routerTemp.agregarEnlace(name,costo);//agrego el enlace al router que se esta agregando
+                        iter_red=red.find(name);
+                        iter_red->second.agregarEnlace(nombre,costo);//actualizo el otro router
                     }
                 }
 
@@ -47,11 +50,15 @@ void net::agregarRouter(char nombre)
 void net::eliminarRouter(char nombre)
 {
     iter_red=red.find(nombre);
-    if (iter_red == red.end()) { //si ya existe ese nombre
+    if (iter_red == red.end()) { //si no existe ese nombre
         cout<<"El router de nombre "<<nombre<<" NO existe en la red"<<endl;
     }
     else {
-        red.erase(iter_red);
+        for (iter_red=red.begin();iter_red!=red.end();iter_red++) {
+            iter_red->second.eliminarEnlace(nombre); //eliminar los enlaces en cada router
+        }
+        iter_red=red.find(nombre);
+        red.erase(iter_red); //y luego elimina le router en la red
     }
 }
 
