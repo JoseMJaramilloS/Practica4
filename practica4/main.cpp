@@ -1,23 +1,40 @@
 #include <iostream>
-#include "router.h"
+#include "net.h"
 
 using namespace std;
 
 int main()
 {
-    router routerA('A');
-    router routerB('B');
-    routerA.agregarEnlace('B',2);
-    routerA.agregarEnlace('C',3);
-    routerA.agregarEnlace('D',5);
-    routerA.agregarEnlace('D',8);
-    routerA.mostrarEnlaces(); cout<<endl;
-    routerA.modificarEnlace('B',10);
-    routerA.mostrarEnlaces(); cout<<endl;
-    routerA.eliminarEnlace('D');
-    routerA.mostrarEnlaces(); cout<<endl;
+    net red;
+    char nombre;
+    int costo, opcion;
+    bool flag=true;
 
-    routerB.mostrarEnlaces(); cout<<endl;
+    cout<<"(1) Agregar router"<<endl;
+    cout<<"(2) Mostrar toda la red"<<endl;
+    cout<<"(0) Salir"<<endl;
+
+
+    while (flag) {
+        cout<<"\nIngrese opcion: "; cin>>opcion;
+        switch (opcion) {
+
+        case 0:
+            flag=false;
+            break;
+
+        case 1:{
+            cout<<"Nombre del router: "; cin>>nombre;
+            red.agregarRouter(nombre);
+            break;
+        }
+        case 2:
+            red.mostrarRed();
+            break;
+        }
+
+    }
+
 
     return 0;
 }
