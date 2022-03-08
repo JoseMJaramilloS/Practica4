@@ -41,7 +41,8 @@ void net::agregarRouter(char nombre)
                 }
 
             } while (name != '0');
-            red.insert(pair<char,router>(nombre,routerTemp));
+            red.insert(pair<char,router>(nombre,routerTemp));//agrego el router a la red
+
         }
     }
 
@@ -64,7 +65,40 @@ void net::eliminarRouter(char nombre)
 
 void net::actualizarRed()
 {
-
+    char rout,pend;//rout: es el router y pend, el nodo que le falta
+    unsigned int costo=0,i=1,tam;
+    tam=red.size();
+    while (i<=red.size()) {
+        for (iter_red = red.begin();iter_red != red.end(); iter_red++) {//Recorre la red y el de abajo recorre los enlaces
+            for (iter_red2 = red.begin();iter_red2 != red.end(); iter_red2++) {
+                (iter_red->second).iter=(iter_red->second).enlaces.find(iter_red2->first);
+                cout<<"Router "<<iter_red->first<<" preguntando por enlace a "<<iter_red2->first<<": ";
+                if ((iter_red->second).iter == (iter_red->second).enlaces.end()) { //Si el router no esta en la TE
+                    cout<<"NO"<<endl;
+                    rout=iter_red->first;
+                    pend=iter_red2->first;
+                }
+                else {
+                    cout<<"SI"<<endl;
+                    (iter_red->second).iter=(iter_red->second).enlaces.find(rout); //busco si este router tiene un enlace para completar el anterior
+                    if (iter_red2->first==pend && (iter_red->second).iter!=(iter_red->second).enlaces.end()) {
+                        costo=iter_red->second.iter->second;
+                        (iter_red->second).iter=(iter_red->second).enlaces.find(pend);
+                        costo+=iter_red->second.iter->second;
+                        cout<<"Enlazando "<<rout<<" con "<<pend<<" y costo de "<<costo<<endl;
+                        iter_red3=red.find(rout);//busco la ubicacion del router
+                        iter_red3->second.agregarEnlace(pend,costo);//le agrego el enlace faltante
+                        iter_red3=red.find(pend);
+                        iter_red3->second.agregarEnlace(rout,costo);//actualizo el otro router
+                        rout = pend = '\0';
+                        costo=0;
+                    }
+                }
+            }
+        }
+        cout<<endl;
+        i++;
+    }
 }
 
 void net::mostrarRed()

@@ -18,6 +18,6 @@ public:
     void modificarEnlace(char nombre, int costo);
     void eliminarEnlace(char nombre);
     void mostrarEnlaces();
-
+    friend class net;
 };
 

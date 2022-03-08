@@ -27,14 +27,21 @@ int main()
         case 1:{
             cout<<"Nombre del router a agregar: "; cin>>nombre;
             red.agregarRouter(nombre);
+            red.actualizarRed();
             break;
         }
+
         case 2:
             cout<<"Nombre del router a eliminar: "; cin>>nombre;
             red.eliminarRouter(nombre);
             break;
+
         case 3:
             red.mostrarRed();
+            break;
+
+        default:
+            cout<<"Opcion invalida"<<endl;
             break;
         }
 
