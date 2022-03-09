@@ -16,6 +16,7 @@ public:
     void eliminarRouter(char nombre);
     void actualizarRed();
     void mostrarRed();
+    void hallarCamino(char origen, char destino);
 };
 
 

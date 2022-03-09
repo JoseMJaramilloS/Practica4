@@ -115,3 +115,35 @@ void net::mostrarRed()
     }
 
 }
+
+void net::hallarCamino(char origen, char destino)
+{//aca se usa red_original
+
+    iter_red=red.find(origen);
+    iter_red2=red.find(destino);
+
+    if (iter_red != red.end() || iter_red2 != red.end()) {
+        int prox_costo=999,costo_total=0;
+        char prox_salto, visitado;
+        bool flag=true;
+        iter_red=red.find(origen);//ubicacion del origen
+        while (flag) {
+            prox_costo=999;
+            for (iter_red->second.iter=iter_red->second.enlaces.begin();iter_red->second.iter!=iter_red->second.enlaces.end();iter_red->second.iter++) {
+                if(iter_red->second.iter->second<prox_costo && iter_red->second.iter->second!=0 && visitado !=iter_red->second.iter->second){ //pregunto si el costo es el menor, si es diferente de cero y si no es el router anterior
+                    prox_costo=iter_red->second.iter->second; //guardo el costo del proximo salto
+                    prox_salto=iter_red->second.iter->first; //guardo el destino del proximo salto
+                    costo_total += prox_costo;
+                    visitado=iter_red->first;
+                }
+            }
+            cout<<"Salto a "<<prox_salto<<", costo= "<<prox_costo<<endl;
+            if(prox_salto==destino) flag=false; //si el proximo salto es el destino, termino el while
+            iter_red=red.find(prox_salto); //me ubico en proximo router
+        }
+        cout<<"Costo total de transmitir de "<<origen<<" a "<<destino<<" es "<<costo_total<<endl;
+    }
+    else {
+        cout<<"Uno de los routers no existe, intente de nuevo"<<endl;
+    }
+}
