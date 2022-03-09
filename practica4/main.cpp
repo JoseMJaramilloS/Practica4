@@ -7,7 +7,7 @@ int main()
 {
     net red,red_original;
     char nombre, origen, destino;
-    int costo, opcion;
+    int opcion;
     bool flag=true;
 
     cout<<"(1) Agregar router"<<endl;
